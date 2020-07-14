@@ -1,0 +1,49 @@
+{
+    "name": "digitalbutter/craft-delivery-date",
+    "description": "Craft CMS Delivery Date Plugin",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "craft-delivery-date"
+    ],
+    "support": {
+        "docs": "???",
+        "issues": "???"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Digital Butter",
+            "homepage": "https://www.butter.com.hk"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0"
+    },
+    "require-dev": {
+        "craftcms/cms": "^3.2.0",
+        "codeception/codeception": "^3.0",
+        "vlucas/phpdotenv": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "digitalbutter\\craftdeliverydate\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "craft-delivery-date",
+        "handle": "craft-delivery-date",
+        "developer": "Digital Butter",
+        "developerUrl": "https://www.butter.com.hk",
+        "documentationUrl": "???",
+        "changelogUrl": "???",
+        "components": {
+            "deliveryDate": "digitalbutter\\craftdeliverydate\\services\\DeliveryDate"
+        },
+        "class": "digitalbutter\\craftdeliverydate\\Craftdeliverydate"
+    }
+}
