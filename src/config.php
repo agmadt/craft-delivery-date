@@ -1,4 +1,5 @@
 <?php
+
 /**
  * craft-delivery-date plugin for Craft CMS 3.x
  *
@@ -25,6 +26,10 @@
 return [
 
     // This controls blah blah blah
-    "someAttribute" => true,
+    "minimumDaysAhead" => 2,
+    "maximumDaysAhead" => 30,
+    "cutOffTime" => '16:00',
+    "timeSlot" => null,
+    "blockOutDays" => null,
 
 ];

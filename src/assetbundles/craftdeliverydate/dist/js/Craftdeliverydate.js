@@ -6,6 +6,6 @@
  * @author    Digital Butter
  * @copyright Copyright (c) 2020 Digital Butter
  * @link      https://www.butter.com.hk
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */

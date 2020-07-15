@@ -11,7 +11,7 @@
 
 namespace digitalbutter\craftdeliverydate\services;
 
-use digitalbutter\craftdeliverydate\Craftdeliverydate;
+use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
 use Craft;
 use craft\base\Component;
@@ -26,7 +26,7 @@ use craft\base\Component;
  * https://craftcms.com/docs/plugins/services
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
 class DeliveryDate extends Component
@@ -40,7 +40,7 @@ class DeliveryDate extends Component
      *
      * From any other plugin file, call it like this:
      *
-     *     Craftdeliverydate::$plugin->deliveryDate->exampleService()
+     *     CraftDeliveryDate::$plugin->deliveryDate->exampleService()
      *
      * @return mixed
      */
@@ -48,7 +48,7 @@ class DeliveryDate extends Component
     {
         $result = 'something';
         // Check our Plugin's settings for `someAttribute`
-        if (Craftdeliverydate::$plugin->getSettings()->someAttribute) {
+        if (CraftDeliveryDate::$plugin->getSettings()->someAttribute) {
         }
 
         return $result;

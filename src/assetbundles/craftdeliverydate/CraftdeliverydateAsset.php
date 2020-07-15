@@ -16,7 +16,7 @@ use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
 /**
- * CraftdeliverydateAsset AssetBundle
+ * CraftDeliveryDateAsset AssetBundle
  *
  * AssetBundle represents a collection of asset files, such as CSS, JS, images.
  *
@@ -30,10 +30,10 @@ use craft\web\assets\cp\CpAsset;
  * http://www.yiiframework.com/doc-2.0/guide-structure-assets.html
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
-class CraftdeliverydateAsset extends AssetBundle
+class CraftDeliveryDateAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================

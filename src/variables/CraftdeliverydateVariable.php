@@ -11,7 +11,7 @@
 
 namespace digitalbutter\craftdeliverydate\variables;
 
-use digitalbutter\craftdeliverydate\Craftdeliverydate;
+use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
 use Craft;
 
@@ -24,10 +24,10 @@ use Craft;
  * https://craftcms.com/docs/plugins/variables
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
-class CraftdeliverydateVariable
+class CraftDeliveryDateVariable
 {
     // Public Methods
     // =========================================================================

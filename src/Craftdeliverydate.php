@@ -12,7 +12,7 @@
 namespace digitalbutter\craftdeliverydate;
 
 use digitalbutter\craftdeliverydate\services\DeliveryDate as DeliveryDateService;
-use digitalbutter\craftdeliverydate\variables\CraftdeliverydateVariable;
+use digitalbutter\craftdeliverydate\variables\CraftDeliveryDateVariable;
 use digitalbutter\craftdeliverydate\models\Settings;
 
 use Craft;
@@ -36,14 +36,14 @@ use yii\base\Event;
  * https://docs.craftcms.com/v3/extend/
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  *
  * @property  DeliveryDateService $deliveryDate
  * @property  Settings $settings
  * @method    Settings getSettings()
  */
-class Craftdeliverydate extends Plugin
+class CraftDeliveryDate extends Plugin
 {
     // Static Properties
     // =========================================================================
@@ -52,7 +52,7 @@ class Craftdeliverydate extends Plugin
      * Static property that is an instance of this plugin class so that it can be accessed via
      * Craftdeliverydate::$plugin
      *
-     * @var Craftdeliverydate
+     * @var CraftDeliveryDate
      */
     public static $plugin;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * craft-delivery-date plugin for Craft CMS 3.x
  *
@@ -17,7 +18,7 @@
  * http://www.yiiframework.com/doc-2.0/guide-tutorial-i18n.html
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
 return [

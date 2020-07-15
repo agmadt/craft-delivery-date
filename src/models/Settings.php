@@ -11,7 +11,7 @@
 
 namespace digitalbutter\craftdeliverydate\models;
 
-use digitalbutter\craftdeliverydate\Craftdeliverydate;
+use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
 use Craft;
 use craft\base\Model;
@@ -27,7 +27,7 @@ use craft\base\Model;
  * https://craftcms.com/docs/plugins/models
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
 class Settings extends Model
@@ -36,11 +36,39 @@ class Settings extends Model
     // =========================================================================
 
     /**
-     * Some field model attribute
+     * minimumDaysAhead model attribute
+     *
+     * @var integer
+     */
+    public $minimumDaysAhead = 2;
+
+    /**
+     * maximumDaysAhead model attribute
+     *
+     * @var integer
+     */
+    public $maximumDaysAhead = 30;
+
+    /**
+     * cutOffTime model attribute
      *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $cutOffTime = '16:00';
+
+    /**
+     * timeSlot model attribute
+     *
+     * @var string
+     */
+    public $timeSlot = null;
+
+    /**
+     * blockOutDays model attribute
+     *
+     * @var string
+     */
+    public $blockOutDays = null;
 
     // Public Methods
     // =========================================================================
@@ -58,8 +86,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            [['minimumDaysAhead', 'maximumDaysAhead', 'cutOffTime'], 'required'],
         ];
     }
 }

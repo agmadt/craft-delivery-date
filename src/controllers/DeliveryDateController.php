@@ -11,7 +11,7 @@
 
 namespace digitalbutter\craftdeliverydate\controllers;
 
-use digitalbutter\craftdeliverydate\Craftdeliverydate;
+use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
 use Craft;
 use craft\web\Controller;
@@ -33,7 +33,7 @@ use craft\web\Controller;
  * https://craftcms.com/docs/plugins/controllers
  *
  * @author    Digital Butter
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
 class DeliveryDateController extends Controller

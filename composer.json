@@ -44,6 +44,6 @@
         "components": {
             "deliveryDate": "digitalbutter\\craftdeliverydate\\services\\DeliveryDate"
         },
-        "class": "digitalbutter\\craftdeliverydate\\Craftdeliverydate"
+        "class": "digitalbutter\\craftdeliverydate\\CraftDeliveryDate"
     }
 }

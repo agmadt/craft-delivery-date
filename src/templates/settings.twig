@@ -8,19 +8,38 @@
  * @author    Digital Butter
  * @copyright Copyright (c) 2020 Digital Butter
  * @link      https://www.butter.com.hk
- * @package   Craftdeliverydate
+ * @package   CraftDeliveryDate
  * @since     1.0.0
  */
 #}
 
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftdeliverydateAsset") %}
+{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateAsset") %}
 
 {{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
+    label: 'Minimum Days Ahead',
+    instructions: 'The soonest a delivery can be made for orders placed on.',
+    id: 'minimum-days-ahead',
+    name: 'minimumDaysAhead',
+    value: settings['minimumDaysAhead'],
+    type: 'number'})
+}}
+
+{{ forms.textField({
+    label: 'Maximum Days Ahead',
+    instructions: 'The latest a delivery can be made for orders',
+    id: 'maximum-days-ahead',
+    name: 'maximumDaysAhead',
+    value: settings['maximumDaysAhead'],
+    type: 'number'})
+}}
+
+{{ forms.textField({
+    label: 'Cut-off Time',
+    instructions: 'If an order is placed after the cut-off time (say 4PM), it counts as the day being over.',
+    id: 'cut-off-time',
+    name: 'cutOffTime',
+    value: settings['cutOffTime']
+    })
 }}
