@@ -1,0 +1,38 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * craft-delivery-date Settings.twig
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: 'Name',
+    id: 'timeslot-name',
+    name: 'name',
+    required: true,
+    value: timeslot.name})
+}}
+
+{{ forms.timeField({
+    label: 'Start Time',
+    id: 'timeslot-start',
+    name: 'start',
+    value: timeslot.start})
+}}
+
+{{ forms.timeField({
+    label: 'End Time',
+    id: 'timeslot-end',
+    name: 'end',
+    value: timeslot.end})
+}}

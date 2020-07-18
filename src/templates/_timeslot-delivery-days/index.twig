@@ -1,0 +1,100 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * craft-delivery-date Settings.twig
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% extends "craft-delivery-date/layouts/_settings" %}
+
+{% import "_includes/forms" as forms %}
+{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateAsset") %}
+
+{% block content %}
+
+    <form action="{{ url('delivery-date/settings/timeslot-delivery-days/store') }}" method="POST">
+        {{ redirectInput('delivery-date/settings/timeslot-delivery-days') }}
+        {{ csrfInput() }}
+
+        <div id="settings-maximum-days-ahead-field" class="field">
+            <div class="heading">
+                <label id="settings-maximum-days-ahead-label" class="" for="settings-maximum-days-ahead">Timeslot Delivery Days</label>
+            </div>
+            <div class="tableview">
+                <table class="data fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Deliver Day</th>
+                            <th style="width: 50px">Enable</th>
+                            <th>Timeslot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, timeslotDeliveryDay in timeslotDeliveryDays %}
+                            <tr>
+                                <td>{{ timeslotDeliveryDay['title'] }}</td>
+                                <td>
+                                    {% include "_includes/forms/lightswitch" with { 
+                                        'name': 'deliverDay['~ key ~']', 'data': { 'value': '1' }, 'on': timeslotDeliveryDay['enable'] 
+                                    } %}
+                                </td>
+                                <td>
+                                    Timeslot: 
+                                    {% for timeslotDeliveryDayTimeslot in timeslotDeliveryDay['timeslots'] %}
+                                        <a href="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/delete') }}"
+                                            data-id="{{ timeslotDeliveryDayTimeslot['id'] }}" data-day="{{ key }}"
+                                            data-timeslot-name="{{ timeslotDeliveryDayTimeslot['name'] }}"
+                                            data-deliver-day="{{ timeslotDeliveryDay['title'] }}"
+                                            class="delete-timeslot"
+                                        >{{ timeslotDeliveryDayTimeslot['name'] }}</a>{% if (loop.index > 0 and (not loop.last)) %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 20px;">
+                <input type="submit" class="btn submit" value="Save">
+                <div style="float: right;">
+                    <a href="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/create') }}" class="btn">Add Timeslot</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% js %}
+    $('document').ready(function() {
+        $('.delete-timeslot').click(function(e) {
+            e.preventDefault();
+            var that = $(this);
+
+            if (!confirm('Are you sure you want to delete ' + that.attr('data-timeslot-name') + ' from ' + that.attr('data-deliver-day') + '?')) {
+                return false;
+            }
+
+            $.ajax({
+                url: that.attr('href'),
+                type: 'POST',
+                data: {
+                    'CRAFT_CSRF_TOKEN': '{{ craft.app.request.csrfToken }}',
+                    'id': that.attr('data-id'),
+                    'day': that.attr('data-day')
+                },
+            })
+            .done(function() {
+                window.location.reload(false);
+            })
+        })
+    })
+{% endjs %}

@@ -11,10 +11,12 @@
 
 namespace digitalbutter\craftdeliverydate\controllers;
 
+use Craft;
 use craft\web\Controller;
+use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
 /**
- * DeliveryDate Controller
+ * TimeslotController Controller
  *
  * Generally speaking, controllers are the middlemen between the front end of
  * the CP/website and your plugin’s services. They contain action methods which
@@ -33,12 +35,15 @@ use craft\web\Controller;
  * @package   CraftDeliveryDate
  * @since     1.0.0
  */
-class DeliveryDateController extends Controller
+class BlockOutDayController extends Controller
 {
     // Public Methods
     // =========================================================================
-    public function actionRedirect()
+
+    public function actionIndex()
     {
-        return $this->redirect('delivery-date/settings/general');
+        return $this->renderTemplate('craft-delivery-date/_block-out-days/index', [
+            'timeslots' => CraftDeliveryDate::$plugin->timeslot->getAllTimeslots()
+        ]);
     }
 }

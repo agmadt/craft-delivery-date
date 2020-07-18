@@ -1,0 +1,33 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * craft-delivery-date Settings.twig
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% extends "craft-delivery-date/layouts/_settings" %}
+
+{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateAsset") %}
+
+{% block content %}
+    <h3>New Timeslot</h3>
+
+    <form action="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/store') }}" method="POST">
+        {{ redirectInput('delivery-date/settings/timeslot-delivery-days') }}
+        {{ csrfInput() }}
+        
+        {% include "craft-delivery-date/_timeslot-delivery-days/timeslots/form" %}
+
+        <button type="submit" class="btn submit">Save</button>
+    </form>
+
+{% endblock %}
+

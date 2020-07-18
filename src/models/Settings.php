@@ -17,7 +17,7 @@ use Craft;
 use craft\base\Model;
 
 /**
- * Craftdeliverydate Settings Model
+ * CraftDeliveryDate Settings Model
  *
  * This is a model used to define the plugin's settings.
  *
@@ -54,21 +54,28 @@ class Settings extends Model
      *
      * @var string
      */
-    public $cutOffTime = '16:00';
+    public $cutOffTime = '4:00 PM';
 
     /**
-     * timeSlot model attribute
+     * availableTimeslots model attribute
      *
      * @var string
      */
-    public $timeSlot = null;
+    public $availableTimeslots = null;
+
+    /**
+     * timeslots model attribute
+     *
+     * @var string
+     */
+    public $timeslotDeliveryDays;
 
     /**
      * blockOutDays model attribute
      *
      * @var string
      */
-    public $blockOutDays = null;
+    public $blockOutDays;
 
     // Public Methods
     // =========================================================================
@@ -88,5 +95,37 @@ class Settings extends Model
         return [
             [['minimumDaysAhead', 'maximumDaysAhead', 'cutOffTime'], 'required'],
         ];
+    }
+
+    /**
+     * @return string the parsed site key (e.g. 'XXXXXXXXXXX')
+     */
+    public function getCutOffTime(): string
+    {
+        if (!isset($this->cutOffTime['time'])) {
+            return $this->cutOffTime;
+        }
+
+        return $this->cutOffTime['time'];
+    }
+
+    /**
+     * @return string the parsed site key (e.g. 'XXXXXXXXXXX')
+     */
+    public function getTimeslotDeliveryDays()
+    {
+        if (!$this->timeslotDeliveryDays) {
+            return [
+                'sunday' => ['title' => 'Sunday', 'enable' => false, 'timeslots' => []],
+                'monday' => ['title' => 'Monday', 'enable' => false, 'timeslots' => []],
+                'tuesday' => ['title' => 'Tuesday', 'enable' => false, 'timeslots' => []],
+                'wednesday' => ['title' => 'Wednesday', 'enable' => false, 'timeslots' => []],
+                'thursday' => ['title' => 'Thursday', 'enable' => false, 'timeslots' => []],
+                'friday' => ['title' => 'Friday', 'enable' => false, 'timeslots' => []],
+                'saturday' => ['title' => 'Saturday', 'enable' => false, 'timeslots' => []],
+            ];
+        }
+
+        return json_decode($this->timeslotDeliveryDays, true);
     }
 }

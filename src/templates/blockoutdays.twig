@@ -1,0 +1,98 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * craft-delivery-date Settings.twig
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% extends "craft-delivery-date/layouts/_settings" %}
+
+{% import "_includes/forms" as forms %}
+{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateAsset") %}
+
+{% block content %}
+
+    <div id="settings-maximum-days-ahead-field" class="field">
+        <div class="heading">
+            <label id="settings-maximum-days-ahead-label" class="" for="settings-maximum-days-ahead">Timeslot Delivery Days</label>
+            <div class="instructions">
+                <p>At what time deliveries can be sent at</p>
+            </div>
+        </div>
+        <div class="tableview">
+            <table class="data fullwidth">
+                <thead>
+                    <tr>
+                        <th>Deliver Day</th>
+                        <th style="width: 50px">Enable</th>
+                        <th>Timeslot</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'sunday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Monday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'monday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'tuesday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'wednesday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'thursday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'friday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
+                        <td>{% include "_includes/forms/lightswitch" with { 'name': 'deliverDay', 'data': { 'value': 'saturday' } } %}</td>
+                        <td>
+                            Timeslot:
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="btn">Add Timeslot</div>
+            <div class="btn">Manage Timeslot</div>
+        </div>
+    </div>
+
+{% endblock %}

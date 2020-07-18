@@ -1,0 +1,28 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Craft Delivery Date Settings" %}
+
+{% set navItems = {
+    'general': { title: "General" },
+    'timeslot-delivery-days': { title: "Timeslot Delivery Days" },
+    'timeslots': { title: "All Timeslots" },
+    'blockoutdays': { title: "Block-out Days" },
+} %}
+
+{% if selectedItem is not defined %}
+    {% set selectedItem = craft.app.request.getSegment(3) %}
+{% endif %}
+
+{% set docTitle = navItems[selectedItem].title~' - '~title %}
+
+{% block sidebar %}
+    <nav>
+        <ul>
+            {% for handle, item in navItems %}
+                <li>
+                    <a href="{{ url('delivery-date/settings/'~handle) }}"{% if handle == selectedItem %} class="sel"{% endif %}>{{ item.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

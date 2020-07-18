@@ -54,11 +54,11 @@ class CraftDeliveryDateAsset extends AssetBundle
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
         $this->js = [
-            'js/Craftdeliverydate.js',
+            'js/CraftDeliveryDate.js',
         ];
 
         $this->css = [
-            'css/Craftdeliverydate.css',
+            'css/CraftDeliveryDate.css',
         ];
 
         parent::init();

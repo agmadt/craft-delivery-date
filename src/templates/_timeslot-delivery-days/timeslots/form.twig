@@ -1,0 +1,42 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * craft-delivery-date Settings.twig
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.selectField({
+    label: 'Day',
+    id: 'timeslot-day',
+    name: 'day',
+    required: true,
+    options: [
+        { 'label': 'Sunday', 'value': 'sunday' },
+        { 'label': 'Monday', 'value': 'monday' },
+        { 'label': 'Tuesday', 'value': 'tuesday' },
+        { 'label': 'Wednesday', 'value': 'wednesday' },
+        { 'label': 'Thursday', 'value': 'thursday' },
+        { 'label': 'Friday', 'value': 'friday' },
+        { 'label': 'Saturday', 'value': 'saturday' },
+    ]})
+}}
+
+{% set timeslotOptions = timeslots %}
+
+{{ forms.selectField({
+    label: 'Timeslot',
+    id: 'timeslot-time',
+    name: 'time',
+    required: true,
+    options: timeslotOptions})
+}}

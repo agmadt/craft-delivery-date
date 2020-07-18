@@ -22,6 +22,7 @@ use craft\events\PluginEvent;
 use craft\web\UrlManager;
 use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
+use craft\helpers\UrlHelper;
 
 use yii\base\Event;
 
@@ -99,21 +100,32 @@ class CraftDeliveryDate extends Plugin
         parent::init();
         self::$plugin = $this;
 
-        // Register our site routes
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'craft-delivery-date/delivery-date';
-            }
-        );
-
         // Register our CP routes
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'craft-delivery-date/delivery-date/do-something';
+                $event->rules['delivery-date'] = 'craft-delivery-date/delivery-date/redirect';
+                $event->rules['delivery-date/settings'] = 'craft-delivery-date/delivery-date/redirect';
+
+                $event->rules['delivery-date/settings/general'] = 'craft-delivery-date/general/form';
+                $event->rules['delivery-date/settings/general/store'] = 'craft-delivery-date/general/store';
+
+                $event->rules['delivery-date/settings/timeslot-delivery-days'] = 'craft-delivery-date/timeslot-delivery-day/index';
+                $event->rules['delivery-date/settings/timeslot-delivery-days/store'] = 'craft-delivery-date/timeslot-delivery-day/store';
+                $event->rules['delivery-date/settings/timeslot-delivery-days/timeslots/create'] = 'craft-delivery-date/timeslot-delivery-day/create-timeslot';
+                $event->rules['delivery-date/settings/timeslot-delivery-days/timeslots/store'] = 'craft-delivery-date/timeslot-delivery-day/store-timeslot';
+                $event->rules['delivery-date/settings/timeslot-delivery-days/timeslots/delete'] = 'craft-delivery-date/timeslot-delivery-day/delete-timeslot';
+
+                $event->rules['delivery-date/settings/blockoutdays'] = 'craft-delivery-date/block-out-day/index';
+                $event->rules['delivery-date/settings/save-blockoutdays'] = 'craft-delivery-date/delivery-date/save-blockoutdays';
+
+                $event->rules['delivery-date/settings/timeslots'] = 'craft-delivery-date/timeslot/index';
+                $event->rules['delivery-date/settings/timeslots/create'] = 'craft-delivery-date/timeslot/create';
+                $event->rules['delivery-date/settings/timeslots/store'] = 'craft-delivery-date/timeslot/store';
+                $event->rules['delivery-date/settings/timeslots/edit/<timeslotID:\d+>'] = 'craft-delivery-date/timeslot/edit';
+                $event->rules['delivery-date/settings/timeslots/update/<timeslotID:\d+>'] = 'craft-delivery-date/timeslot/update';
+                $event->rules['delivery-date/settings/timeslots/delete'] = 'craft-delivery-date/timeslot/destroy';
             }
         );
 
@@ -138,6 +150,11 @@ class CraftDeliveryDate extends Plugin
                 }
             }
         );
+
+        // Register the services
+        $this->setComponents([
+            'timeslot' => \digitalbutter\craftdeliverydate\services\Timeslot::class,
+        ]);
 
         /**
          * Logging in Craft involves using one of the following methods:
@@ -181,18 +198,10 @@ class CraftDeliveryDate extends Plugin
     }
 
     /**
-     * Returns the rendered settings HTML, which will be inserted into the content
-     * block on the settings page.
-     *
-     * @return string The rendered settings HTML
+     * @inheritdoc
      */
-    protected function settingsHtml(): string
+    public function getSettingsResponse()
     {
-        return Craft::$app->view->renderTemplate(
-            'craft-delivery-date/settings',
-            [
-                'settings' => $this->getSettings()
-            ]
-        );
+        return Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('delivery-date/settings/general'));
     }
 }
