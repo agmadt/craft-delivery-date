@@ -15,7 +15,111 @@
 
 {% extends "craft-delivery-date/layouts/_settings" %}
 
+{% import "_includes/forms" as forms %}
 {% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateAsset") %}
 
 {% block content %}
+    <div id="full-calendar"></div>
+
+    <div id="calendar-click-modal" class="modal">
+        <div id="calendar-choosen-date-field" class="field">
+            <div class="heading">
+                <label id="calendar-choosen-date-label" class="" for="calendar-choosen-date">Choosen Date</label>
+            </div>
+            <div class="input ltr">
+                <input type="text" id="calendar-choosen-date" class="text fullwidth" readonly>
+            </div>
+        </div>
+
+        {{ forms.textField({
+            label: 'Block-out Days Name',
+            id: 'calendar-choosen-name',
+            name: 'name'})
+        }}
+
+        <div type="submit" class="btn submit" id="calendar-save-button">Save</div>
+    </div>
 {% endblock %}
+
+{% set events = blockOutDays %}
+
+{% js %}
+    $('document').ready(function() {
+        var calendarInfo;
+        var calendarEl = document.getElementById('full-calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            eventDidMount: function(info) {
+                $(info.el).append('<div class="fc-event-remove-calendar" data-id="'+info.event.id+'">X</div>')
+            },
+            dateClick: function(info) {
+                $('#calendar-click-modal').modal();
+                $('#calendar-choosen-date').val(info.date.format("mmmm dd, yyyy"));
+                calendarInfo = info;
+            },
+            select: function(info) {
+                $('#calendar-click-modal').modal();
+                $('#calendar-choosen-date').val(info.start.format("mmmm dd, yyyy") + ' to ' + info.end.format("mmmm d, yyyy"));
+                calendarInfo = info;
+            },
+            events: {{ events|raw }}
+        });
+
+        calendar.render();
+
+        $('#calendar-save-button').click(function() {
+            var calendarChoosenName = $('#calendar-choosen-name');
+            if (calendarInfo.dayEl) {
+                calendar.addEvent({
+                    title: calendarChoosenName.val(),
+                    start: calendarInfo.date,
+                    allDay: true
+                });
+            } else {
+                calendar.addEvent({
+                    title: calendarChoosenName.val(),
+                    start: calendarInfo.start,
+                    end: calendarInfo.end,
+                    allDay: true
+                });
+            }
+
+            $.post({
+                url: '{{ url('delivery-date/settings/blockoutdays/store') }}',
+                data: {
+                    CRAFT_CSRF_TOKEN: '{{ craft.app.request.csrfToken }}',
+                    type: 'multiple',
+                    name: calendarChoosenName.val(),
+                    start: calendarInfo.start ? calendarInfo.start.format('yyyy-mm-dd') : calendarInfo.date.format('yyyy-mm-dd'),
+                    end: calendarInfo.end ? calendarInfo.end.format('yyyy-mm-dd') : null
+                }
+            })
+            .catch(function(e) {
+                location.reload();
+            });
+
+            calendarChoosenName.val("");
+            
+            $.modal.close();
+        });
+
+        $('body').on('click', '.fc-event-remove-calendar', function() {
+            var event = calendar.getEventById($(this).attr('data-id'));
+            if(confirm('Are you sure you want to delete '+ event.title +' ?')) {
+                event.remove();
+
+                $.post({
+                    url: '{{ url('delivery-date/settings/blockoutdays/delete') }}',
+                    data: {
+                        CRAFT_CSRF_TOKEN: '{{ craft.app.request.csrfToken }}',
+                        id: event.id
+                    }
+                })
+                .catch(function(e) {
+                    location.reload();
+                });
+            }
+        })
+    })
+{% endjs %}

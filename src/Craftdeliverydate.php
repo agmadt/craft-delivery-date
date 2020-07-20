@@ -118,7 +118,8 @@ class CraftDeliveryDate extends Plugin
                 $event->rules['delivery-date/settings/timeslot-delivery-days/timeslots/delete'] = 'craft-delivery-date/timeslot-delivery-day/delete-timeslot';
 
                 $event->rules['delivery-date/settings/blockoutdays'] = 'craft-delivery-date/block-out-day/index';
-                $event->rules['delivery-date/settings/save-blockoutdays'] = 'craft-delivery-date/delivery-date/save-blockoutdays';
+                $event->rules['delivery-date/settings/blockoutdays/store'] = 'craft-delivery-date/block-out-day/store';
+                $event->rules['delivery-date/settings/blockoutdays/delete'] = 'craft-delivery-date/block-out-day/destroy';
 
                 $event->rules['delivery-date/settings/timeslots'] = 'craft-delivery-date/timeslot/index';
                 $event->rules['delivery-date/settings/timeslots/create'] = 'craft-delivery-date/timeslot/create';
@@ -154,6 +155,7 @@ class CraftDeliveryDate extends Plugin
         // Register the services
         $this->setComponents([
             'timeslot' => \digitalbutter\craftdeliverydate\services\Timeslot::class,
+            'blockOutDay' => \digitalbutter\craftdeliverydate\services\BlockOutDay::class,
         ]);
 
         /**

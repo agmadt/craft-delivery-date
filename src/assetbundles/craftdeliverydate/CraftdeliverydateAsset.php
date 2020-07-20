@@ -54,10 +54,15 @@ class CraftDeliveryDateAsset extends AssetBundle
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
         $this->js = [
+            'js/fullcalendar.min.js',
+            'js/jquery.modal.js',
+            'js/date-format.js',
             'js/CraftDeliveryDate.js',
         ];
 
         $this->css = [
+            'css/fullcalendar.min.css',
+            'css/jquery.modal.css',
             'css/CraftDeliveryDate.css',
         ];
 

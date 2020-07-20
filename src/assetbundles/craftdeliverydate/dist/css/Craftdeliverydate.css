@@ -9,3 +9,46 @@
  * @package   CraftDeliveryDate
  * @since     1.0.0
  */
+
+#full-calendar td, #full-calendar th {
+padding: 0;
+}
+
+.fc-col-header th.fc-col-header-cell {
+   text-align: center;
+}
+
+#full-calendar a {
+   color: inherit;
+}
+
+#full-calendar a:hover {
+   text-decoration: none;
+}
+
+.jquery-modal.blocker {
+   z-index: 3;
+}
+
+.jquery-modal .modal {
+   overflow: initial;
+}
+
+#calendar-click-modal {
+   height: initial;
+   min-height: initial;
+   padding: 30px;
+}
+
+.fc-daygrid-event {
+   position: relative;
+}
+
+.fc-event-remove-calendar {
+   font-weight: 800;
+   position: absolute;
+      top: -5px;
+      right: 0;
+   padding: 5px 6px;
+   z-index: 3;
+}

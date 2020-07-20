@@ -42,8 +42,48 @@ class BlockOutDayController extends Controller
 
     public function actionIndex()
     {
+        $arr = [];
+        $blockOutDays = CraftDeliveryDate::$plugin->blockOutDay->getAllBlockOutDays();
+
+        foreach ($blockOutDays as $day) {
+            $arr[] = [
+                'id' => $day['id'],
+                'title' => $day['name'],
+                'start' => date('Y-m-d', $day['start']),
+                'end' => $day['end'] != 0 ? date('Y-m-d', $day['end']) : null
+            ];
+        }
+
         return $this->renderTemplate('craft-delivery-date/_block-out-days/index', [
-            'timeslots' => CraftDeliveryDate::$plugin->timeslot->getAllTimeslots()
+            'blockOutDays' => json_encode($arr)
         ]);
+    }
+
+    public function actionStore()
+    {
+        $this->requirePostRequest();
+
+        $params = Craft::$app->getRequest()->getBodyParams();
+
+        $savedBlockOutDay = CraftDeliveryDate::$plugin->blockOutDay->storeBlockOutDay($params);
+
+        if (!$savedBlockOutDay) {
+            Craft::$app->getSession()->setError('Couldn’t create block out day.');
+            throw new \yii\web\NotFoundHttpException();
+        }
+    }
+
+    public function actionDestroy()
+    {
+        $this->requirePostRequest();
+
+        $params = Craft::$app->getRequest()->getBodyParams();
+
+        $deletedBlockOutDay = CraftDeliveryDate::$plugin->blockOutDay->destroyBlockOutDay($params);
+
+        if (!$deletedBlockOutDay) {
+            Craft::$app->getSession()->setError('Couldn’t delete block out day.');
+            throw new \yii\web\NotFoundHttpException();
+        }
     }
 }
