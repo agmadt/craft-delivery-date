@@ -70,6 +70,13 @@
 
         $('#calendar-save-button').click(function() {
             var calendarChoosenName = $('#calendar-choosen-name');
+
+            if (!calendarChoosenName.val()) {
+                $('#calendar-choosen-name-field').find('.errors').remove();
+                $('#calendar-choosen-name-field').append('<ul class="errors"><li>Name cannot be blank.</li></ul>');
+                return false;
+            }
+
             if (calendarInfo.dayEl) {
                 calendar.addEvent({
                     title: calendarChoosenName.val(),
@@ -98,8 +105,6 @@
             .catch(function(e) {
                 location.reload();
             });
-
-            calendarChoosenName.val("");
             
             $.modal.close();
         });
@@ -120,6 +125,11 @@
                     location.reload();
                 });
             }
-        })
+        });
+
+        $('#calendar-click-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
+            $('#calendar-choosen-name').val("");
+            $('#calendar-choosen-name-field').find('.errors').remove();
+        });
     })
 {% endjs %}
