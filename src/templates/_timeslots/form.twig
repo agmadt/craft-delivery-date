@@ -27,6 +27,7 @@
     label: 'Start Time',
     id: 'timeslot-start',
     name: 'start',
+    required: true,
     value: timeslot.start})
 }}
 
@@ -34,5 +35,36 @@
     label: 'End Time',
     id: 'timeslot-end',
     name: 'end',
+    required: true,
     value: timeslot.end})
 }}
+
+{% js %}
+    $('document').ready(function() {
+        $('#timeslot-form').submit(function(e) {
+            if (!$('#timeslot-name').val()) {
+                e.preventDefault();
+                $('#timeslot-name-field').find('.errors').remove();
+                $('#timeslot-name-field').append('<ul class="errors"><li>Name cannot be blank.</li></ul>');
+            } else {
+                $('#timeslot-name-field').find('.errors').remove();
+            }
+            
+            if (!$('#timeslot-start-field input[name="start[time]"]').val()) {
+                e.preventDefault();
+                $('#timeslot-start-field').find('.errors').remove();
+                $('#timeslot-start-field').append('<ul class="errors"><li>Timeslot start time cannot be blank.</li></ul>');
+            } else {
+                $('#timeslot-start-field').find('.errors').remove();
+            }
+
+            if (!$('#timeslot-end-field input[name="end[time]"]').val()) {
+                e.preventDefault();
+                $('#timeslot-end-field').find('.errors').remove();
+                $('#timeslot-end-field').append('<ul class="errors"><li>Timeslot end time cannot be blank.</li></ul>');
+            } else {
+                $('#timeslot-end-field').find('.errors').remove();
+            }
+        });
+    })
+{% endjs %}
