@@ -20,7 +20,7 @@
 
 {% block content %}
 
-    <form action="{{ url('delivery-date/settings/general/store') }}" method="POST">
+    <form id="general-form" action="{{ url('delivery-date/settings/general/store') }}" method="POST">
         {{ redirectInput('delivery-date/settings/general') }}
         {{ csrfInput() }}
 
@@ -54,3 +54,34 @@
     </form>
 
 {% endblock %}
+
+
+{% js %}
+    $('document').ready(function() {
+        $('#general-form').submit(function(e) {
+            if (!$('#minimum-days-ahead').val()) {
+                e.preventDefault();
+                $('#minimum-days-ahead-field').find('.errors').remove();
+                $('#minimum-days-ahead-field').append('<ul class="errors"><li>Minimum days ahead cannot be blank.</li></ul>');
+            } else {
+                $('#minimum-days-ahead-field').find('.errors').remove();
+            }
+            
+            if (!$('#maximum-days-ahead').val()) {
+                e.preventDefault();
+                $('#maximum-days-ahead-field').find('.errors').remove();
+                $('#maximum-days-ahead-field').append('<ul class="errors"><li>Maximum days ahead cannot be blank.</li></ul>');
+            } else {
+                $('#maximum-days-ahead-field').find('.errors').remove();
+            }
+
+            if (!$('#cut-off-time-field input[name="cutOffTime[time]"]').val()) {
+                e.preventDefault();
+                $('#cut-off-time-field').find('.errors').remove();
+                $('#cut-off-time-field').append('<ul class="errors"><li>Cut-off time cannot be blank.</li></ul>');
+            } else {
+                $('#cut-off-time-field').find('.errors').remove();
+            }
+        });
+    })
+{% endjs %}
