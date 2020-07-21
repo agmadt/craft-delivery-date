@@ -40,3 +40,17 @@
     required: true,
     options: timeslotOptions})
 }}
+
+{% js %}
+    $('document').ready(function() {
+        $('#timeslot-deliveryday-form').submit(function(e) {
+            if (!$('#timeslot-time').val()) {
+                e.preventDefault();
+                $('#timeslot-time-field').find('.errors').remove();
+                $('#timeslot-time-field').append('<ul class="errors"><li>Timeslot cannot be blank.</li></ul>');
+            } else {
+                $('#timeslot-time-field').find('.errors').remove();
+            }
+        });
+    })
+{% endjs %}

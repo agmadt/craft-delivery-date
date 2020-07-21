@@ -106,6 +106,11 @@ class TimeslotDeliveryDayController extends Controller
         $settings = CraftDeliveryDate::getInstance()->getSettings();
         $timeslotDeliveryDays = $settings->getTimeslotDeliveryDays();
 
+        if (!isset($params['time'])) {
+            Craft::$app->getSession()->setError('Couldn’t create timeslot.');
+            return $this->redirect('delivery-date/settings/timeslot-delivery-days');
+        }
+
         $day = $params['day'];
         $timeslotID = explode('-', $params['time'])[0];
         $timeslotName = explode('-', $params['time'])[1];
@@ -124,11 +129,11 @@ class TimeslotDeliveryDayController extends Controller
         $pluginSettingsSaved = Craft::$app->getPlugins()->savePluginSettings(CraftDeliveryDate::getInstance(), $settings->toArray());
 
         if (!$pluginSettingsSaved) {
-            Craft::$app->getSession()->setError('Couldn’t save settings.');
+            Craft::$app->getSession()->setError('Couldn’t create timeslot.');
             return $this->redirect('delivery-date/settings/timeslot-delivery-days');
         }
 
-        Craft::$app->getSession()->setNotice('Settings saved.');
+        Craft::$app->getSession()->setNotice('Timeslot created.');
         return $this->redirect('delivery-date/settings/timeslot-delivery-days');
     }
 

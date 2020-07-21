@@ -20,7 +20,7 @@
 {% block content %}
     <h3>New Timeslot</h3>
 
-    <form action="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/store') }}" method="POST">
+    <form id="timeslot-deliveryday-form" action="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/store') }}" method="POST">
         {{ redirectInput('delivery-date/settings/timeslot-delivery-days') }}
         {{ csrfInput() }}
         
