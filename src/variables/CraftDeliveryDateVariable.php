@@ -88,8 +88,6 @@ class CraftDeliveryDateVariable
         $oldMode = \Craft::$app->view->getTemplateMode();
         \Craft::$app->view->setTemplateMode(View::TEMPLATE_MODE_CP);
 
-        print_r($daysTimeslots);
-
         $html = \Craft::$app->view->renderTemplate('craft-delivery-date/_frontend/datepicker', [
             'minimumDaysAhead' => $settings->getMinimumDaysAhead(),
             'maximumDaysAhead' => $settings->getMaximumDaysAhead(),
