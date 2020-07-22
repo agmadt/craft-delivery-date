@@ -46,11 +46,14 @@ class BlockOutDayController extends Controller
         $blockOutDays = CraftDeliveryDate::$plugin->blockOutDay->getAllBlockOutDays();
 
         foreach ($blockOutDays as $day) {
+            // end date is added by 1
+            // https://fullcalendar.io/docs/Calendar-select
+            // https://stackoverflow.com/a/27407217/2971496
             $arr[] = [
                 'id' => $day['id'],
                 'title' => $day['name'],
                 'start' => date('Y-m-d', $day['start']),
-                'end' => $day['end'] != 0 ? date('Y-m-d', $day['end']) : null
+                'end' => !empty($day['end']) ? date('Y-m-d', strtotime('+1 day', $day['end'])) : null
             ];
         }
 

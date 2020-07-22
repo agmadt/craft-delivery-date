@@ -59,8 +59,9 @@
                 calendarInfo = info;
             },
             select: function(info) {
+                previousDay = new Date(info.end.getFullYear(), info.end.getMonth(), info.end.getDate() - 1);
                 $('#calendar-click-modal').modal();
-                $('#calendar-choosen-date').val(info.start.format("mmmm dd, yyyy") + ' to ' + info.end.format("mmmm d, yyyy"));
+                $('#calendar-choosen-date').val(info.start.format("mmmm dd, yyyy") + ' to ' + previousDay.format("mmmm d, yyyy"));
                 calendarInfo = info;
             },
             events: {{ events|raw }}
@@ -99,7 +100,7 @@
                     type: 'multiple',
                     name: calendarChoosenName.val(),
                     start: calendarInfo.start ? calendarInfo.start.format('yyyy-mm-dd') : calendarInfo.date.format('yyyy-mm-dd'),
-                    end: calendarInfo.end ? calendarInfo.end.format('yyyy-mm-dd') : null
+                    end: calendarInfo.end ? new Date(calendarInfo.end.getFullYear(), calendarInfo.end.getMonth(), calendarInfo.end.getDate() - 1).format('yyyy-mm-dd') : null
                 }
             })
             .catch(function(e) {

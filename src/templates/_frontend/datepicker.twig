@@ -1,0 +1,34 @@
+{#
+/**
+ * craft-delivery-date plugin for Craft CMS 3.x
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+#}
+
+{% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateFrontendAsset") %}
+
+<div id="craft-delivery-date-datepicker-container">
+    <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" />
+</div>
+
+{% set datesDisabled = [] %}
+{% for blockedOutDay in blockedOutDays %}
+    {% set datesDisabled = datesDisabled|merge([blockedOutDay]) %}
+{% endfor %}
+
+{% js %}
+    $('document').ready(function() {
+        $('#craft-delivery-date-datepicker').datepicker({
+            startDate: new Date('{{ minimumDaysAhead }}'),
+            endDate: new Date('{{ maximumDaysAhead }}'),
+            daysOfWeekDisabled: '{{ disabledDaysOfWeek }}',
+            datesDisabled: {{ datesDisabled|json_encode|raw }},
+            format: 'MM dd, yyyy'
+        })
+    })
+{% endjs %}

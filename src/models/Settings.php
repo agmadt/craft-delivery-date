@@ -77,6 +77,16 @@ class Settings extends Model
      */
     public $blockOutDays;
 
+    public $deliveryDaysMap = [
+        0 => 'sunday',
+        1 => 'monday',
+        2 => 'tuesday',
+        3 => 'wednesday',
+        4 => 'thursday',
+        5 => 'friday',
+        6 => 'saturday',
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -97,10 +107,19 @@ class Settings extends Model
         ];
     }
 
-    /**
-     * @return string the parsed site key (e.g. 'XXXXXXXXXXX')
-     */
-    public function getCutOffTime(): string
+    public function getMinimumDaysAhead()
+    {
+        $today = new \DateTime();
+        return $today->modify('+' . $this->minimumDaysAhead . ' day')->format('F j, Y');
+    }
+
+    public function getMaximumDaysAhead()
+    {
+        $today = new \DateTime();
+        return $today->modify('+' . $this->maximumDaysAhead . ' day')->format('F j, Y');
+    }
+
+    public function getCutOffTime()
     {
         if (!isset($this->cutOffTime['time'])) {
             return $this->cutOffTime;
@@ -109,9 +128,6 @@ class Settings extends Model
         return $this->cutOffTime['time'];
     }
 
-    /**
-     * @return string the parsed site key (e.g. 'XXXXXXXXXXX')
-     */
     public function getTimeslotDeliveryDays()
     {
         if (!$this->timeslotDeliveryDays) {
