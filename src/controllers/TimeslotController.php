@@ -102,15 +102,15 @@ class TimeslotController extends Controller
 
         $params['id'] = $timeslotID;
         $updatedTimeslot = CraftDeliveryDate::$plugin->timeslot->updateTimeslot($params);
+        print_r($params['start']['time']);
 
         foreach ($timeslotDeliveryDays as $key => $timeslotDeliveryDay) {
-
-            print_r($timeslotDeliveryDay);
             foreach ($timeslotDeliveryDay['timeslots'] as $k => $timeslot) {
                 if ($params['id'] == $k) {
                     $timeslot['name'] = $params['name'];
+                    $timeslot['start'] = strtotime($params['start']['time']);
+                    $timeslot['end'] = strtotime($params['end']['time']);
                     $timeslotDeliveryDays[$key]['timeslots'][$k] = $timeslot;
-                    print_r($timeslotDeliveryDays[$key]['timeslots'][$k]);
                 }
             }
         }

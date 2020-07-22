@@ -12,8 +12,15 @@
 
 {% do view.registerAssetBundle("digitalbutter\\craftdeliverydate\\assetbundles\\craftdeliverydate\\CraftDeliveryDateFrontendAsset") %}
 
-<div id="craft-delivery-date-datepicker-container">
-    <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" />
+<div id="craft-delivery-date-container">
+    <div id="craft-delivery-date-datepicker-container">
+        <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" />
+    </div>
+    <div id="craft-delivery-date-timeslot-container">
+        <select id="craft-delivery-date-timeslot" name="craft_delivery_date_timeslot">
+            <option>Select Delivery Date First</option>
+        </select>
+    </div>
 </div>
 
 {% set datesDisabled = [] %}
@@ -23,6 +30,9 @@
 
 {% js %}
     $('document').ready(function() {
+        var availableTimeslot = {{ daysTimeslots|json_encode|raw }};
+        var deliveryDateTimeslot = $('#craft-delivery-date-timeslot');
+
         $('#craft-delivery-date-datepicker').datepicker({
             startDate: new Date('{{ minimumDaysAhead }}'),
             endDate: new Date('{{ maximumDaysAhead }}'),
@@ -30,5 +40,22 @@
             datesDisabled: {{ datesDisabled|json_encode|raw }},
             format: 'MM dd, yyyy'
         })
+        .on('changeDate', function(e) {
+            var daySelected = e.date.format('dddd').toLowerCase();
+            var timeslotOptionElement = '<option>Select Delivery Date First</option>';
+
+            deliveryDateTimeslot.empty();
+
+            if(availableTimeslot[daySelected]) {
+                timeslotOptionElement = '<option>Select Timeslot</option>';
+
+                for (var i=0;i<availableTimeslot[daySelected].length;i++) {
+                    var timeslotData = availableTimeslot[daySelected][i];
+                    timeslotOptionElement += '<option value='+timeslotData.id+'>'+timeslotData.name+'</option>'
+                }
+            }
+
+            deliveryDateTimeslot.append(timeslotOptionElement);
+        });
     })
 {% endjs %}

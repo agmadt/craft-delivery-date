@@ -89,7 +89,7 @@ class TimeslotDeliveryDayController extends Controller
         foreach ($timeslots as $timeslot) {
             $timeslotArr[] = [
                 'label' => $timeslot['name'],
-                'value' => $timeslot['id'] . '-' . $timeslot['name'],
+                'value' => $timeslot['id'] . '-' . $timeslot['name'] . '-' . $timeslot['start'] . '-' . $timeslot['end'],
             ];
         }
 
@@ -114,12 +114,16 @@ class TimeslotDeliveryDayController extends Controller
         $day = $params['day'];
         $timeslotID = explode('-', $params['time'])[0];
         $timeslotName = explode('-', $params['time'])[1];
+        $timeslotStart = explode('-', $params['time'])[2];
+        $timeslotEnd = explode('-', $params['time'])[3];
 
         foreach ($timeslotDeliveryDays as $key => $timeslotDeliveryDay) {
             if ($params['day'] == $key) {
                 $timeslotDeliveryDay['timeslots'][$timeslotID] = [
                     'id' => $timeslotID,
-                    'name' => $timeslotName
+                    'name' => $timeslotName,
+                    'start' => $timeslotStart,
+                    'end' => $timeslotEnd,
                 ];
                 $timeslotDeliveryDays[$key] = $timeslotDeliveryDay;
             }
@@ -162,6 +166,7 @@ class TimeslotDeliveryDayController extends Controller
             return json_encode(['success' => false]);
         }
 
+        Craft::$app->getSession()->setNotice('Timeslot delivery day deleted.');
         return json_encode(['success' => true]);
     }
 }

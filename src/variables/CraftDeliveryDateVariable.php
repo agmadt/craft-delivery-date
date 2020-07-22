@@ -38,22 +38,32 @@ class CraftDeliveryDateVariable
      * You can have as many variable functions as you want.  From any Twig template,
      * call it like this:
      *
-     *     {{ craft.craftdeliverydate.renderDatePicker }}
+     *     {{ craft.craftdeliverydate.render }}
      *
      * @param null $optional
      * @return string
      */
-    public function renderDatePicker()
+    public function render()
     {
         $settings = CraftDeliveryDate::$plugin->getSettings();
         $timeslotDeliveryDays = json_decode($settings->timeslotDeliveryDays, true);
-        $disabledDaysOfWeek = [];
         $blockedOutDays = CraftDeliveryDate::$plugin->blockOutDay->getAllBlockOutDays();
+        $disabledDaysOfWeek = [];
         $blockedOutDaysArr = [];
+        $daysTimeslots = [];
 
         foreach ($timeslotDeliveryDays as $key => $timeslotDeliveryDay) {
             if (!$timeslotDeliveryDay['enable']) {
                 $disabledDaysOfWeek[] = array_search($key, $settings->deliveryDaysMap);
+            }
+
+            foreach ($timeslotDeliveryDay['timeslots'] as $timeslot) {
+                $daysTimeslots[$key][] = [
+                    'id' => $timeslot['id'],
+                    'name' => $timeslot['name'],
+                    'start' => date('g:i A', $timeslot['start']),
+                    'end' => date('g:i A', $timeslot['end']),
+                ];
             }
         }
 
@@ -78,11 +88,14 @@ class CraftDeliveryDateVariable
         $oldMode = \Craft::$app->view->getTemplateMode();
         \Craft::$app->view->setTemplateMode(View::TEMPLATE_MODE_CP);
 
+        print_r($daysTimeslots);
+
         $html = \Craft::$app->view->renderTemplate('craft-delivery-date/_frontend/datepicker', [
             'minimumDaysAhead' => $settings->getMinimumDaysAhead(),
             'maximumDaysAhead' => $settings->getMaximumDaysAhead(),
             'disabledDaysOfWeek' => implode(',', $disabledDaysOfWeek),
-            'blockedOutDays' => $blockedOutDaysArr
+            'blockedOutDays' => $blockedOutDaysArr,
+            'daysTimeslots' => $daysTimeslots
         ]);
 
         \Craft::$app->view->setTemplateMode($oldMode);

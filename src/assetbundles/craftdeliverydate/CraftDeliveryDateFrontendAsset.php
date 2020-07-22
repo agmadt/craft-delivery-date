@@ -55,6 +55,7 @@ class CraftDeliveryDateFrontendAsset extends AssetBundle
 
         $this->css = [
             'css/frontend/datepicker.css',
+            'css/frontend/CraftDeliveryDate.css',
         ];
 
         parent::init();

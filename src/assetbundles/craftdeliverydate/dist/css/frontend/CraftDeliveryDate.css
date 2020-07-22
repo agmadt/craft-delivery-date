@@ -1,0 +1,24 @@
+/**
+ * craft-delivery-date plugin for Craft CMS
+ *
+ * craft-delivery-date CSS
+ *
+ * @author    Digital Butter
+ * @copyright Copyright (c) 2020 Digital Butter
+ * @link      https://www.butter.com.hk
+ * @package   CraftDeliveryDate
+ * @since     1.0.0
+ */
+
+#craft-delivery-date-container {
+    overflow: hidden;
+}
+
+#craft-delivery-date-datepicker-container {
+    float: left;
+}
+
+#craft-delivery-date-timeslot-container {
+    float: left;
+    margin: 0 0 0 10px;
+}
