@@ -23,7 +23,8 @@ use craft\web\UrlManager;
 use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
 use craft\helpers\UrlHelper;
-
+use craft\commerce\elements\Order;
+use craft\records\Session;
 use yii\base\Event;
 
 /**
@@ -151,6 +152,43 @@ class CraftDeliveryDate extends Plugin
                 }
             }
         );
+
+        Event::on(Order::class, Order::EVENT_AFTER_ADD_LINE_ITEM, function (Event $e) {
+            $params = Craft::$app->getRequest()->getBodyParams();
+            // register plugin session if delivery date and timeslot have been chosen and exist in request upon cart updated
+            if (
+                isset($params['craft_delivery_date_datepicker'])
+                && isset($params['craft_delivery_date_timeslot'])
+            ) {
+                Craft::$app->getSession()->set('craft_delivery_date_session', [
+                    'delivery_date' => $params['craft_delivery_date_datepicker'],
+                    'timeslot' => $params['craft_delivery_date_timeslot']
+                ]);
+            }
+        });
+
+        Event::on(Order::class, Order::EVENT_AFTER_COMPLETE_ORDER, function (Event $e) {
+            // persist chosen delivery date and timeslot upon completed order to track and then delete the plugin session
+            $pluginSession = Craft::$app->getSession()->get('craft_delivery_date_session');
+            if ($pluginSession) {
+
+                $timeslot = CraftDeliveryDate::$plugin->timeslot->findTimeslotByID($pluginSession['timeslot']);
+
+                Craft::$app->db->createCommand()
+                    ->insert('delivery_date_orders', [
+                        'order_id' => $e->sender->id,
+                        'delivery_date' => \DateTime::createFromFormat('F j, Y', $pluginSession['delivery_date'])->getTimestamp(),
+                        'timeslot' => json_encode([
+                            'name' => $timeslot['name'],
+                            'start' => $timeslot['start'],
+                            'end' => $timeslot['end']
+                        ]),
+                    ])
+                    ->execute();
+
+                Craft::$app->getSession()->remove('craft_delivery_date_session');
+            }
+        });
 
         // Register the services
         $this->setComponents([

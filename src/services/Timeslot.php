@@ -12,7 +12,6 @@
 namespace digitalbutter\craftdeliverydate\services;
 
 use craft\db\Query;
-
 use craft;
 use craft\base\Component;
 use digitalbutter\craftdeliverydate\models\Timeslot as TimeslotModel;

@@ -51,6 +51,16 @@ class CraftDeliveryDateVariable
         $disabledDaysOfWeek = [];
         $blockedOutDaysArr = [];
         $daysTimeslots = [];
+        $choosenDeliveryDate = null;
+        $choosenDeliveryWeekName = null;
+        $choosenTimeslot = null;
+        $pluginSession = Craft::$app->getSession()->get('craft_delivery_date_session');
+
+        if ($pluginSession) {
+            $choosenDeliveryDate = $pluginSession['delivery_date'];
+            $choosenDeliveryWeekName = strtolower(\DateTime::createFromFormat('F j, Y', $choosenDeliveryDate)->format('l'));
+            $choosenTimeslot = $pluginSession['timeslot'];
+        }
 
         foreach ($timeslotDeliveryDays as $key => $timeslotDeliveryDay) {
             if (!$timeslotDeliveryDay['enable']) {
@@ -93,11 +103,40 @@ class CraftDeliveryDateVariable
             'maximumDaysAhead' => $settings->getMaximumDaysAhead(),
             'disabledDaysOfWeek' => implode(',', $disabledDaysOfWeek),
             'blockedOutDays' => $blockedOutDaysArr,
-            'daysTimeslots' => $daysTimeslots
+            'daysTimeslots' => $daysTimeslots,
+            'choosen_delivery_date' => $choosenDeliveryDate,
+            'choosen_delivery_week_name' => $choosenDeliveryWeekName,
+            'choosen_timeslot' => $choosenTimeslot,
         ]);
 
         \Craft::$app->view->setTemplateMode($oldMode);
 
         echo $html;
+    }
+
+    public function renderChosenDeliveryDate($orderID)
+    {
+        $deliveryDate = CraftDeliveryDate::$plugin->deliveryDate->findDeliveryDateByColumn('order_id', $orderID);
+
+        if (!$deliveryDate) {
+            return '';
+        }
+
+        $date = date('F j, Y', $deliveryDate['delivery_date']);
+
+        return $date;
+    }
+
+    public function renderChosenTimeslot($orderID)
+    {
+        $deliveryDate = CraftDeliveryDate::$plugin->deliveryDate->findDeliveryDateByColumn('order_id', $orderID);
+
+        if (!$deliveryDate) {
+            return '';
+        }
+
+        $timeslot = json_decode($deliveryDate['timeslot'], true);
+
+        return $timeslot['name'];
     }
 }

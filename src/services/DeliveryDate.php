@@ -13,6 +13,7 @@ namespace digitalbutter\craftdeliverydate\services;
 
 use digitalbutter\craftdeliverydate\CraftDeliveryDate;
 
+use craft\db\Query;
 use Craft;
 use craft\base\Component;
 
@@ -40,17 +41,16 @@ class DeliveryDate extends Component
      *
      * From any other plugin file, call it like this:
      *
-     *     CraftDeliveryDate::$plugin->deliveryDate->exampleService()
+     *     CraftDeliveryDate::$plugin->deliveryDate->findDeliveryDateByColumn()
      *
      * @return mixed
      */
-    public function exampleService()
+    public function findDeliveryDateByColumn($id, $value)
     {
-        $result = 'something';
-        // Check our Plugin's settings for `someAttribute`
-        if (CraftDeliveryDate::$plugin->getSettings()->someAttribute) {
-        }
-
-        return $result;
+        return (new Query())
+            ->select(['id', 'order_id', 'delivery_date', 'timeslot'])
+            ->from(['delivery_date_orders'])
+            ->where([$id => $value])
+            ->one();
     }
 }

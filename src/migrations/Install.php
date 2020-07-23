@@ -33,6 +33,16 @@ class Install extends Migration
             'dateUpdated' => $this->dateTime()->notNull(),
             'uid' => $this->uid(),
         ]);
+
+        $this->createTable('delivery_date_orders', [
+            'id' => $this->primaryKey(),
+            'order_id' => $this->integer()->notNull(),
+            'delivery_date' => $this->integer()->notNull(),
+            'timeslot' => $this->string()->notNull(),
+            'dateCreated' => $this->dateTime()->notNull(),
+            'dateUpdated' => $this->dateTime()->notNull(),
+            'uid' => $this->uid(),
+        ]);
     }
 
     /**

@@ -14,11 +14,19 @@
 
 <div id="craft-delivery-date-container">
     <div id="craft-delivery-date-datepicker-container">
-        <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" />
+        <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" value="{{ choosen_delivery_date }}" />
     </div>
     <div id="craft-delivery-date-timeslot-container">
         <select id="craft-delivery-date-timeslot" name="craft_delivery_date_timeslot">
-            <option>Select Delivery Date First</option>
+            {% if choosen_timeslot %}
+                {% for timeslot in daysTimeslots[choosen_delivery_week_name] %}
+                    <option value="{{ timeslot['id'] }}"
+                        {% if timeslot['id'] == choosen_timeslot %} selected="selected" {% endif %}
+                    >{{ timeslot['name'] }}</option>
+                {% endfor %}
+            {% else %}
+                <option>Select Delivery Date First</option>
+            {% endif %}
         </select>
     </div>
 </div>
