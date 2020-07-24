@@ -14,11 +14,38 @@
     overflow: hidden;
 }
 
+#craft-delivery-date-container .error {
+    color: red;
+    font-size: 12px;
+}
+
 #craft-delivery-date-datepicker-container {
     float: left;
+    width: 25%;
+}
+
+#craft-delivery-date-datepicker {
+    width: 100%;
 }
 
 #craft-delivery-date-timeslot-container {
     float: left;
     margin: 0 0 0 10px;
+    width: 25%;
+}
+
+#craft-delivery-date-timeslot {
+    border-radius: 4px;
+    height: initial;
+    padding: 11px 10px 11px 10px;
+    width: 100%;
+}
+
+#craft-delivery-date-save-button-container {
+    float: left;
+    margin: 0 0 0 10px;
+}
+
+#craft-delivery-date-save-button {
+    padding: 8px 8px;
 }

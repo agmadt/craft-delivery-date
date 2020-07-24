@@ -56,7 +56,7 @@ class CraftDeliveryDateVariable
         $choosenTimeslot = null;
         $pluginSession = Craft::$app->getSession()->get('craft_delivery_date_session');
 
-        if ($pluginSession) {
+        if ($pluginSession && $pluginSession['delivery_date'] && $pluginSession['timeslot']) {
             $choosenDeliveryDate = $pluginSession['delivery_date'];
             $choosenDeliveryWeekName = strtolower(\DateTime::createFromFormat('F j, Y', $choosenDeliveryDate)->format('l'));
             $choosenTimeslot = $pluginSession['timeslot'];
@@ -98,7 +98,7 @@ class CraftDeliveryDateVariable
         $oldMode = \Craft::$app->view->getTemplateMode();
         \Craft::$app->view->setTemplateMode(View::TEMPLATE_MODE_CP);
 
-        $html = \Craft::$app->view->renderTemplate('craft-delivery-date/_frontend/datepicker', [
+        $html = \Craft::$app->view->renderTemplate('craft-delivery-date/_frontend/default', [
             'minimumDaysAhead' => $settings->getMinimumDaysAhead(),
             'maximumDaysAhead' => $settings->getMaximumDaysAhead(),
             'disabledDaysOfWeek' => implode(',', $disabledDaysOfWeek),

@@ -17,7 +17,7 @@
         <input id="craft-delivery-date-datepicker" name="craft_delivery_date_datepicker" type="text" value="{{ choosen_delivery_date }}" />
     </div>
     <div id="craft-delivery-date-timeslot-container">
-        <select id="craft-delivery-date-timeslot" name="craft_delivery_date_timeslot">
+        <select id="craft-delivery-date-timeslot" name="craft_delivery_date_timeslotcraft_delivery_date_timeslot">
             {% if choosen_timeslot %}
                 {% for timeslot in daysTimeslots[choosen_delivery_week_name] %}
                     <option value="{{ timeslot['id'] }}"
@@ -25,9 +25,12 @@
                     >{{ timeslot['name'] }}</option>
                 {% endfor %}
             {% else %}
-                <option>Select Delivery Date First</option>
+                <option value="">Select Delivery Date First</option>
             {% endif %}
         </select>
+    </div>
+    <div id="craft-delivery-date-save-button-container">
+        <button id="craft-delivery-date-save-button" class="button button-primary">Save Delivery Date</button>
     </div>
 </div>
 
@@ -50,12 +53,12 @@
         })
         .on('changeDate', function(e) {
             var daySelected = e.date.format('dddd').toLowerCase();
-            var timeslotOptionElement = '<option>Select Delivery Date First</option>';
+            var timeslotOptionElement = '<option value="">Select Delivery Date First</option>';
 
             deliveryDateTimeslot.empty();
 
             if(availableTimeslot[daySelected]) {
-                timeslotOptionElement = '<option>Select Timeslot</option>';
+                timeslotOptionElement = '<option value="">Select Timeslot</option>';
 
                 for (var i=0;i<availableTimeslot[daySelected].length;i++) {
                     var timeslotData = availableTimeslot[daySelected][i];
@@ -65,5 +68,34 @@
 
             deliveryDateTimeslot.append(timeslotOptionElement);
         });
+
+        $('#craft-delivery-date-save-button').click(function(e) {
+            e.preventDefault();
+            var deliveryDateDatepicker = $('#craft-delivery-date-datepicker');
+            var deliveryDateTimeslot = $('#craft-delivery-date-timeslot');
+
+            deliveryDateDatepicker.parent().find('.error').remove();
+            deliveryDateTimeslot.parent().find('.error').remove();
+
+            if (!deliveryDateDatepicker.val()) {
+                deliveryDateDatepicker.parent().append('<span class="error">Delivery date is required</span>');
+                return false;
+            }
+
+            if (!deliveryDateTimeslot.val()) {
+                deliveryDateTimeslot.parent().append('<span class="error">Timeslot is required</span>');
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '{{ url('delivery-date/store') }}',
+                data: {
+                    CRAFT_CSRF_TOKEN: '{{ craft.app.request.csrfToken }}',
+                    craft_delivery_date_datepicker: deliveryDateDatepicker.val(),
+                    craft_delivery_date_timeslot: deliveryDateTimeslot.val()
+                }
+            })
+        })
     })
 {% endjs %}
