@@ -55,7 +55,11 @@
                                             data-deliver-day="{{ timeslotDeliveryDay['title'] }}"
                                             class="delete-timeslot"
                                         >{{ timeslotDeliveryDayTimeslot['name'] }}</a>{% if (loop.index > 0 and (not loop.last)) %},{% endif %}
+                                        
+                                        {% if (loop.last) %}<span style="margin-left: 10px;"></span>{% endif %}
                                     {% endfor %}
+                                    
+                                    <a href="#" class="btn btn small add-timeslot">add timeslot</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -64,17 +68,23 @@
             </div>
             <div style="margin-top: 20px;">
                 <input type="submit" class="btn submit" value="Save">
-                <div style="float: right;">
-                    <a href="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/create') }}" class="btn">Add Timeslot</a>
-                </div>
             </div>
         </div>
     </form>
 
+    <div id="add-timeslot-modal" class="modal delivery-date">
+        <a href="{{ url('delivery-date/settings/timeslot-delivery-days/timeslots/create') }}" class="btn">Add Timeslot</a>
+        <a href="{{ url('delivery-date/settings/timeslots/create') }}" class="btn">Create New Timeslot</a>
+    </div>
 {% endblock %}
 
 {% js %}
     $('document').ready(function() {
+        $('.add-timeslot').click(function (e) {
+            e.preventDefault();
+            $('#add-timeslot-modal').modal();
+        })
+
         $('.delete-timeslot').click(function(e) {
             e.preventDefault();
             var that = $(this);

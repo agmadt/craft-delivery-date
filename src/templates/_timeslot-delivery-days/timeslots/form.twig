@@ -41,6 +41,10 @@
     options: timeslotOptions})
 }}
 
+{% if timeslotOptions|length == 0 %}
+    <div class="field">There are no timeslots created yet. Click <a href="{{ url('delivery-date/settings/timeslots/create') }}">here</a> to create the first one</div>
+{% endif %}
+
 {% js %}
     $('document').ready(function() {
         $('#timeslot-deliveryday-form').submit(function(e) {

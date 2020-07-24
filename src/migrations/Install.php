@@ -52,5 +52,6 @@ class Install extends Migration
     {
         $this->dropTableIfExists('delivery_date_timeslots');
         $this->dropTableIfExists('delivery_date_blocked_days');
+        $this->dropTableIfExists('delivery_date_orders');
     }
 }

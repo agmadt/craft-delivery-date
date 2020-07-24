@@ -34,7 +34,7 @@ padding: 0;
    overflow: initial;
 }
 
-#calendar-click-modal {
+.modal.delivery-date {
    height: initial;
    min-height: initial;
    padding: 30px;

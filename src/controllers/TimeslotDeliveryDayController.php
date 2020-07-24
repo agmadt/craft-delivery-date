@@ -125,6 +125,7 @@ class TimeslotDeliveryDayController extends Controller
                     'start' => $timeslotStart,
                     'end' => $timeslotEnd,
                 ];
+                ksort($timeslotDeliveryDay['timeslots']);
                 $timeslotDeliveryDays[$key] = $timeslotDeliveryDay;
             }
         }
@@ -137,7 +138,7 @@ class TimeslotDeliveryDayController extends Controller
             return $this->redirect('delivery-date/settings/timeslot-delivery-days');
         }
 
-        Craft::$app->getSession()->setNotice('Timeslot created.');
+        Craft::$app->getSession()->setNotice('Timeslot delivery day added.');
         return $this->redirect('delivery-date/settings/timeslot-delivery-days');
     }
 
