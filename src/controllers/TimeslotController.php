@@ -43,8 +43,19 @@ class TimeslotController extends Controller
 
     public function actionIndex()
     {
+        $timeslots = CraftDeliveryDate::$plugin->timeslot->getAllTimeslots();
+
+        foreach ($timeslots as $timeslot) {
+            $timeslotsArr[] = [
+                'id' => $timeslot['id'],
+                'name' => $timeslot['name'],
+                'start' => date('h:i A', $timeslot['start']),
+                'end' => date('h:i A', $timeslot['end']),
+            ];
+        }
+
         return $this->renderTemplate('craft-delivery-date/_timeslots/index', [
-            'timeslots' => CraftDeliveryDate::$plugin->timeslot->getAllTimeslots()
+            'timeslots' => $timeslotsArr
         ]);
     }
 

@@ -32,6 +32,8 @@
     {% set tableData = tableData|merge([{
         id: timeslot.id,
         title: timeslot.name,
+        start: timeslot.start,
+        end: timeslot.end,
         url: editUrl,
     }]) %}
 {% endfor %}
@@ -39,6 +41,8 @@
 {% js %}
     var columns = [
         { name: '__slot:title', title: 'Name' },
+        { name: 'start', title: 'Start' },
+        { name: 'end', title: 'End' },
     ];
 
     new Craft.VueAdminTable({
