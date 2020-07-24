@@ -19,11 +19,13 @@
     <div id="craft-delivery-date-timeslot-container">
         <select id="craft-delivery-date-timeslot" name="craft_delivery_date_timeslotcraft_delivery_date_timeslot">
             {% if choosen_timeslot %}
-                {% for timeslot in daysTimeslots[choosen_delivery_week_name] %}
-                    <option value="{{ timeslot['id'] }}"
-                        {% if timeslot['id'] == choosen_timeslot %} selected="selected" {% endif %}
-                    >{{ timeslot['name'] }}</option>
-                {% endfor %}
+                {% if daysTimeslots[choosen_delivery_week_name] is defined %}
+                    {% for timeslot in daysTimeslots[choosen_delivery_week_name] %}
+                        <option value="{{ timeslot['id'] }}"
+                            {% if timeslot['id'] == choosen_timeslot %} selected="selected" {% endif %}
+                        >{{ timeslot['name'] }}</option>
+                    {% endfor %}
+                {% endif %}
             {% else %}
                 <option value="">Select Delivery Date First</option>
             {% endif %}
@@ -95,6 +97,9 @@
                     craft_delivery_date_datepicker: deliveryDateDatepicker.val(),
                     craft_delivery_date_timeslot: deliveryDateTimeslot.val()
                 }
+            })
+            .done(function() {
+                deliveryDateDatepicker.parent().append('<span class="success">Delivery date chosen.</span>');
             })
         })
     })

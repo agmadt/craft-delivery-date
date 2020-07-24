@@ -69,7 +69,7 @@ class DeliveryDate extends Component
         }
     }
 
-    public function persistDeliveryDate()
+    public function persistDeliveryDate($order)
     {
         // persist chosen delivery date and timeslot upon completed order to track and then delete the plugin session
         $pluginSession = Craft::$app->getSession()->get('craft_delivery_date_session');
@@ -79,7 +79,7 @@ class DeliveryDate extends Component
 
             Craft::$app->db->createCommand()
                 ->insert('delivery_date_orders', [
-                    'order_id' => $e->sender->id,
+                    'order_id' => $order->sender->id,
                     'delivery_date' => \DateTime::createFromFormat('F j, Y', $pluginSession['delivery_date'])->getTimestamp(),
                     'timeslot' => json_encode([
                         'name' => $timeslot['name'],

@@ -159,7 +159,7 @@ class CraftDeliveryDate extends Plugin
         );
 
         Event::on(Order::class, Order::EVENT_AFTER_COMPLETE_ORDER, function (Event $e) {
-            CraftDeliveryDate::$plugin->deliveryDate->persistDeliveryDate();
+            CraftDeliveryDate::$plugin->deliveryDate->persistDeliveryDate($e);
         });
 
         // Register the services
