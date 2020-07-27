@@ -158,9 +158,11 @@ class CraftDeliveryDate extends Plugin
             }
         );
 
-        Event::on(Order::class, Order::EVENT_AFTER_COMPLETE_ORDER, function (Event $e) {
-            CraftDeliveryDate::$plugin->deliveryDate->persistDeliveryDate($e);
-        });
+        if (class_exists(Order::class)) {
+            Event::on(Order::class, Order::EVENT_AFTER_COMPLETE_ORDER, function (Event $e) {
+                CraftDeliveryDate::$plugin->deliveryDate->persistDeliveryDate($e);
+            });
+        }
 
         // Register the services
         $this->setComponents([
