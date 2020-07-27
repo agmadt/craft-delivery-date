@@ -46,13 +46,16 @@ class CraftDeliveryDateFrontendAsset extends AssetBundle
         // define the path that your publishable resources live
         $this->sourcePath = "@digitalbutter/craftdeliverydate/assetbundles/craftdeliverydate/dist";
 
-        // define the relative path to CSS/JS files that should be registered with the page
+        if (getenv('DELIVERY_DATE_INCLUDE_JQUERY') === 'true') {
+            $includeJs[] = 'js/frontend/jquery.js';
+        }
+
+        $includeJs[] = 'js/frontend/datepicker.js';
+        $includeJs[] = 'js/date-format.js';
+
+        // define the relative path to CSS files that should be registered with the page
         // when this asset bundle is registered
-        $this->js = [
-            'js/frontend/jquery.js',
-            'js/frontend/datepicker.js',
-            'js/date-format.js',
-        ];
+        $this->js = $includeJs;
 
         $this->css = [
             'css/frontend/datepicker.css',
