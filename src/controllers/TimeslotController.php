@@ -44,6 +44,7 @@ class TimeslotController extends Controller
     public function actionIndex()
     {
         $timeslots = CraftDeliveryDate::$plugin->timeslot->getAllTimeslots();
+        $timeslotsArr = [];
 
         foreach ($timeslots as $timeslot) {
             $timeslotsArr[] = [
