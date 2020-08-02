@@ -71,6 +71,7 @@
 
         $('#calendar-save-button').click(function() {
             var calendarChoosenName = $('#calendar-choosen-name');
+            var calendarType = 'single';
 
             if (!calendarChoosenName.val()) {
                 $('#calendar-choosen-name-field').find('.errors').remove();
@@ -85,6 +86,7 @@
                     allDay: true
                 });
             } else {
+                var calendarType = 'multiple';
                 calendar.addEvent({
                     title: calendarChoosenName.val(),
                     start: calendarInfo.start,
@@ -97,7 +99,7 @@
                 url: '{{ url('delivery-date/settings/blockoutdays/store') }}',
                 data: {
                     CRAFT_CSRF_TOKEN: '{{ craft.app.request.csrfToken }}',
-                    type: 'multiple',
+                    type: calendarType,
                     name: calendarChoosenName.val(),
                     start: calendarInfo.start ? calendarInfo.start.format('yyyy-mm-dd') : calendarInfo.date.format('yyyy-mm-dd'),
                     end: calendarInfo.end ? new Date(calendarInfo.end.getFullYear(), calendarInfo.end.getMonth(), calendarInfo.end.getDate() - 1).format('yyyy-mm-dd') : null
